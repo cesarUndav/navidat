@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feliz navidad</title>
+
+  <style>
+    :root{
+      --bg1:#071225;
+      --bg2:#0b2a3a;
+      --snow: rgba(255,255,255,.95);
+      --gold: #ffd36b;
+      --trunk:#5b3a22;
+      --shadow: rgba(0,0,0,.25);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#fff;
+      overflow:hidden;
+      background: radial-gradient(1200px 700px at 50% 15%, #1a3a57 0%, var(--bg2) 35%, var(--bg1) 100%);
+    }
+
+    /* Estrellas */
+    .stars{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.9;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.15));
+    }
+    .stars::before{
+      content:"";
+      position:absolute;
+      top:12%;
+      left:18%;
+      width:2px;height:2px;
+      background:rgba(255,255,255,.9);
+      border-radius:50%;
+      box-shadow:
+        60px 30px rgba(255,255,255,.7),
+        120px 80px rgba(255,255,255,.9),
+        210px 40px rgba(255,255,255,.6),
+        320px 110px rgba(255,255,255,.85),
+        420px 60px rgba(255,255,255,.65),
+        520px 140px rgba(255,255,255,.9),
+        650px 35px rgba(255,255,255,.6),
+        760px 120px rgba(255,255,255,.9),
+        880px 70px rgba(255,255,255,.75),
+        980px 150px rgba(255,255,255,.9),
+        110px 170px rgba(255,255,255,.65),
+        260px 190px rgba(255,255,255,.85),
+        390px 210px rgba(255,255,255,.6),
+        560px 220px rgba(255,255,255,.9),
+        740px 200px rgba(255,255,255,.7),
+        910px 210px rgba(255,255,255,.9);
+      animation: twinkle 3.5s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{opacity:.75; transform: translateY(0)}
+      50%{opacity:1; transform: translateY(-2px)}
+    }
+
+    .scene{
+      position:relative;
+      width:100%;
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding: clamp(14px, 4vw, 26px);
+    }
+
+    /* Card responsive */
+    .card{
+      position:relative;
+      max-height: min(720px, 92vh);
+      padding: clamp(16px, 3.5vw, 28px) clamp(14px, 3.2vw, 22px) clamp(16px, 3.6vw, 30px);
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 18px 60px var(--shadow);
+      backdrop-filter: blur(8px);
+      overflow:hidden;
+    }
+
+    .message{
+      text-align:center;
+      line-height:1.05;
+      margin: 0 0 12px;
+      font-weight:800;
+      letter-spacing:.5px;
+      font-size: clamp(32px, 6vw, 56px);
+      text-shadow:
+        0 0 14px rgba(255,255,255,.22),
+        0 0 34px rgba(255,211,107,.18);
+      animation: float 4.2s ease-in-out infinite;
+    }
+
+    .sub{
+      text-align:center;
+      margin:0 0 clamp(10px, 2.5vw, 18px);
+      opacity:.9;
+      font-weight:600;
+      font-size: clamp(13px, 3.2vw, 16px);
+    }
+
+    @keyframes float{
+      0%,100%{transform: translateY(0)}
+      50%{transform: translateY(-6px)}
+    }
+
+    .tree-wrap{
+      display:grid;
+      place-items:center;
+      margin-top: 4px;
+    }
+
+    /* Árbol escalable para móviles */
+    .tree{
+      position:relative;
+      width: min(300px, 74vw);
+      aspect-ratio: 1 / 1.1;
+      display:grid;
+      place-items:center;
+      filter: drop-shadow(0 16px 22px rgba(0,0,0,.25));
+    }
+
+    /* Estrella */
+    .star{
+      position:absolute;
+      top: -8%;
+      width: clamp(28px, 8vw, 38px);
+      aspect-ratio: 1/1;
+      background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 35%, #d9a93c 100%);
+      clip-path: polygon(50% 0%, 61% 36%, 98% 36%, 68% 57%, 79% 92%, 50% 71%, 21% 92%, 32% 57%, 2% 36%, 39% 36%);
+      box-shadow: 0 0 20px rgba(255,211,107,.35);
+      animation: sparkle 1.9s ease-in-out infinite;
+      z-index: 3;
+    }
+    @keyframes sparkle{
+      0%,100%{transform: scale(1) rotate(0deg); filter: brightness(1)}
+      50%{transform: scale(1.08) rotate(2deg); filter: brightness(1.15)}
+    }
+
+    /* Pino “glass” con transparencias */
+    .pine{
+      position:relative;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+    .pine-svg{
+      width: 100%;
+      height: 100%;
+      display:block;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.18));
+    }
+
+    /* Brillo animado dentro del pino */
+    .shine{
+      animation: shineMove 3.6s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes shineMove{
+      0%   { transform: translateX(-18px); opacity: .0; }
+      20%  { opacity: .55; }
+      55%  { opacity: .25; }
+      100% { transform: translateX(22px); opacity: 0; }
+    }
+
+    .trunk{
+      position:absolute;
+      bottom: 3.5%;
+      width: 18%;
+      height: 22%;
+      background: linear-gradient(180deg, #6b4327, var(--trunk));
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.06);
+      z-index: 1;
+    }
+
+    /* Luces */
+    .light{
+      top: 10%;
+      position:absolute;
+      width: clamp(7px, 2.2vw, 10px);
+      height: clamp(7px, 2.2vw, 10px);
+      border-radius:50%;
+      box-shadow: 0 0 14px rgba(255,255,255,.12);
+      animation: blink 1.6s ease-in-out infinite;
+      opacity: .95;
+      z-index: 4;
+    }
+    @keyframes blink{
+      0%,100%{transform: scale(1); filter: brightness(1)}
+      50%{transform: scale(1.25); filter: brightness(1.35)}
+    }
+
+    /* Suelo nevado */
+    .ground{
+      position:absolute;
+      left:0; right:0;
+      bottom:-42px;
+      height: 100px;
+      background: radial-gradient(900px 120px at 50% 10%, rgba(253, 253, 253, 0.87) 0%, rgba(255,255,255,.12) 45%, rgba(255,255,255,.05) 70%, rgba(255,255,255,0) 100%);
+      pointer-events:none;
+      z-index: -1;
+    }
+
+    /* Nieve */
+    .snow{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .snowflake{
+      position:absolute;
+      top:-12px;
+      width: var(--size);
+      height: var(--size);
+      background: var(--snow);
+      border-radius:50%;
+      opacity: var(--alpha);
+      filter: blur(var(--blur));
+      transform: translateX(0);
+      animation:
+        fall var(--dur) linear var(--delay) infinite,
+        sway calc(var(--dur) * 0.7) ease-in-out var(--delay) infinite;
+    }
+    @keyframes fall{ to{ transform: translateY(110vh); } }
+    @keyframes sway{
+      0%,100%{ margin-left: 0px; }
+      50%{ margin-left: var(--sway); }
+    }
+
+    /* Ajustes extra para pantallas muy chicas */
+    @media (max-width: 380px){
+      .card{ border-radius: 18px; }
+      .ground{ bottom:-54px; }
+    }
+
+    /* Accesibilidad: reducir movimiento */
+    @media (prefers-reduced-motion: reduce){
+      .message, .stars::before, .star, .light, .snowflake, .shine{ animation: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="snow" id="snow" aria-hidden="true"></div>
+
+  <main class="scene">
+    <section class="card" role="img" aria-label="Escena navideña con nieve y un árbol">
+      <h1 class="message">Feliz navidad Flor</h1>
+      <p class="sub">Que tengas una noche hermosa ✨</p>
+
+      <div class="tree-wrap">
+        <div class="tree" id="tree">
+          <div class="star" aria-hidden="true"></div>
+
+          <!-- Pino facetado con transparencias -->
+          <div class="pine" aria-hidden="true">
+            <svg class="pine-svg" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0f7a44"/>
+                  <stop offset="1" stop-color="#083d25"/>
+                </linearGradient>
+
+                <linearGradient id="facetA" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(255,255,255,.18)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,.03)"/>
+                </linearGradient>
+
+                <linearGradient id="facetB" x1="1" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="rgba(255,255,255,.12)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,.02)"/>
+                </linearGradient>
+
+                <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="rgba(255,255,255,0)"/>
+                  <stop offset="0.5" stop-color="rgba(255,255,255,.35)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                </linearGradient>
+
+                <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="0.4" />
+                </filter>
+
+                <path id="sil"
+                  d="M100 10
+                     L138 72 L122 72
+                     L160 122 L140 122
+                     L185 176
+                     L15 176
+                     L60 122 L40 122
+                     L78 72 L62 72
+                     Z" />
+                <clipPath id="clip">
+                  <use href="#sil"/>
+                </clipPath>
+              </defs>
+
+              <!-- Silueta base -->
+              <use href="#sil" fill="url(#base)" />
+
+              <!-- Facetas (transparencias) -->
+              <polygon points="100,16 134,76 100,76" fill="url(#facetA)" opacity=".55"/>
+              <polygon points="100,16 100,76 66,76"  fill="url(#facetB)" opacity=".45"/>
+
+              <polygon points="100,76 154,128 110,128" fill="url(#facetA)" opacity=".42"/>
+              <polygon points="100,76 90,128 46,128"  fill="url(#facetB)" opacity=".38"/>
+
+              <polygon points="100,128 178,176 112,176" fill="url(#facetA)" opacity=".35"/>
+              <polygon points="100,128 88,176 22,176"  fill="url(#facetB)" opacity=".32"/>
+
+              <!-- Contorno sutil “cristal” -->
+              <use href="#sil" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2" />
+
+              <!-- Brillo animado dentro del pino -->
+              <g clip-path="url(#clip)">
+                <rect class="shine" x="40" y="0" width="90" height="230" fill="url(#shineGrad)" filter="url(#soft)" opacity=".0"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="trunk" aria-hidden="true"></div>
+
+          <!-- Luces (posiciones en %) para que escalen bien en móvil) -->
+          <span class="light" style="left:50%; top:20%; background:#ff5c7a; animation-delay:.0s"></span>
+          <span class="light" style="left:41%; top:28%; background:#7af0ff; animation-delay:.2s"></span>
+          <span class="light" style="left:58%; top:30%; background:#ffe27a; animation-delay:.4s"></span>
+
+          <span class="light" style="left:35%; top:39%; background:#b7ff8a; animation-delay:.1s"></span>
+          <span class="light" style="left:50%; top:43%; background:#ffcc7a; animation-delay:.3s"></span>
+          <span class="light" style="left:66%; top:39%; background:#9aa6ff; animation-delay:.5s"></span>
+
+          <span class="light" style="left:30%; top:54%; background:#7af0ff; animation-delay:.25s"></span>
+          <span class="light" style="left:50%; top:58%; background:#ff5c7a; animation-delay:.45s"></span>
+          <span class="light" style="left:70%; top:54%; background:#ffe27a; animation-delay:.65s"></span>
+
+          <span class="light" style="left:39%; top:69%; background:#b7ff8a; animation-delay:.35s"></span>
+          <span class="light" style="left:62%; top:69%; background:#9aa6ff; animation-delay:.55s"></span>
+        </div>
+      </div>
+
+      <div class="ground" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <script>
+    // Nieve simple: crea copitos con tamaños/velocidades aleatorias
+    const snow = document.getElementById("snow");
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function createFlake(){
+      const flake = document.createElement("div");
+      flake.className = "snowflake";
+
+      const size = rand(2, 6);
+      const dur = rand(6, 14);
+      const delay = rand(-10, 0); // ya “cayendo” al cargar
+      const alpha = rand(0.25, 0.95);
+      const blur = rand(0, 1.2);
+      const sway = rand(-18, 18);
+
+      flake.style.left = rand(0, 100) + "vw";
+      flake.style.setProperty("--size", size + "px");
+      flake.style.setProperty("--dur", dur + "s");
+      flake.style.setProperty("--delay", delay + "s");
+      flake.style.setProperty("--alpha", alpha.toFixed(2));
+      flake.style.setProperty("--blur", blur.toFixed(2) + "px");
+      flake.style.setProperty("--sway", sway.toFixed(0) + "px");
+
+      snow.appendChild(flake);
+    }
+
+    function seedSnow(count = 70){
+      snow.innerHTML = "";
+      for(let i=0; i<count; i++) createFlake();
+    }
+
+    // Ajuste según ancho de pantalla (móvil = menos copitos)
+    function responsiveSnow(){
+      const w = window.innerWidth;
+      const count = Math.round(Math.min(90, Math.max(40, w / 14)));
+      seedSnow(count);
+    }
+
+    responsiveSnow();
+    window.addEventListener("resize", () => {
+      clearTimeout(window.__snowT);
+      window.__snowT = setTimeout(responsiveSnow, 120);
+    });
+  </script>
+</body>
+</html>
